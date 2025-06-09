@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>React App Vs Vite</title>
+</head>
+<body>
+  <center>
+    <h1>React App Vs Vite</h1>
+
+    <h2> Create React App</h2>
+    <ul>
+      <li>Uses Webpack under the hood.</li>
+      <li>index.html is inside the <code>public/</code> folder.</li>
+      <li>Includes a preconfigured testing setup (Jest).</li>
+      <li>Slower development server startup.</li>
+      <li>Configuration is hidden (via react-scripts).</li>
+      <li>More boilerplate files are included.</li>
+      <li>Harder to customize deeply.</li>
+    </ul>
+
+    <h2>Vite</h2>
+    <ul>
+      <li>Uses ESBuild for dev and Rollup for build.</li>
+      <li>index.html is at the root level.</li>
+      <li>No testing setup by default (can add Vitest).</li>
+      <li>Instant startup and fast hot reloads.</li>
+      <li>Open and editable config via vite.config.js.</li>
+      <li>Minimal folder structure.</li>
+      <li>Easy to customize and lightweight.</li>
+    </ul>
+  </center>
+</body>
+</html>
