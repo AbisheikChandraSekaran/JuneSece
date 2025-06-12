@@ -1,17 +1,22 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const User = require('../models/signupSchema')
+const Signup = require("../models/signupSchema")
 
-router.post('/', async(req,res)=>{
-    const{fname,email,password} = req.body;
-     try{
-        const newUser = new User({ fname,email,password});
-        await newUser.save();
-        return res.status(201).json({message: "User Signup Successful"})
-     } catch(err){
-        console.error("Signup error:", err.message);
-        return res.status(500).json({message: "Signup failed"})
-     }
+router.get("/test", (req, res) => {
+  res.status(200).json({ message: "Test Route is working fine" });
+});
+router.post("/signup", async (req, res) => {
+  const { fname, lname, uname, email, password } = req.body;
+  // console.log(fname, lname, uname, email, password);
+  const newUser = new Signup({
+    fname:fname,
+    lname:lname,
+    uname:uname,
+    email:email,
+    password:password
+  })
+  newUser.save()
+  res.status(200).json({ message: "User Sign up Successful", isSignup: true });
 });
 
 module.exports = router;

@@ -1,26 +1,10 @@
-const mongoose = require('mongoose');
-
-const userSchema = new mongoose.Schema({
-  fname: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true, // prevents duplicate registrations
-    lowercase: true,
-    trim: true
-  },
-  password: {
-    type: String,
-    required: true
-  }
-}, {
-  timestamps: true // adds createdAt and updatedAt automatically
-});
-
-const User = mongoose.model('User', userSchema);
-
-module.exports = User;
+const mdb = require("mongoose");
+const signupSchema = new mdb.Schema({
+    fname: String,
+    lname:String,
+    uname:String,
+    email:String,
+    password:String,
+})
+const signup_schema = mdb.model("signup", signupSchema);
+module.exports = signup_schema;

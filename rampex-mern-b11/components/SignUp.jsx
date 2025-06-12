@@ -1,96 +1,101 @@
+import { useState } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import axios from 'axios';
-
-const SignUp = () => {
+const Signup = () => {
   const navigate = useNavigate();
-
-  const [fname, setFname] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [cnfPassword, setCnfPassword] = useState('');
-
-  const handleSignUp = async (e) => {
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
+  const [uname, setUname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [cnf_password, setCnfPassword] = useState("");
+  const signup = async (e) => {
     e.preventDefault();
-
-    if (password !== cnfPassword) {
-      toast.error("Passwords do not match");
+    if (password !== cnf_password) {
+      alert("Password and Cnf Password doesn't match");
       return;
     }
-
-    try {
-      const response = await axios.post('http://localhost:8000/signup', {
-        fname,
-        email,
-        password,
-      });
-
-      toast.success(response.data.message || "Sign Up Successful");
+    const res = await axios.post("http://localhost:8000/signup", {
+      fname: fname,
+      lname: lname,
+      uname: uname,
+      email: email,
+      password: password,
+    });
+    console.log(res);
+    const message = res.data.message;
+    const isSignup = res.data.isSignup;
+    console.log(message, isSignup);
+    if (isSignup) {
+      alert(message);
       navigate("/login");
-    } catch (error) {
-      if (error.response && error.response.data && error.response.data.message) {
-        toast.error(error.response.data.message);
-      } else {
-        toast.error("Signup failed. Please try again.");
-      }
     }
   };
-
   return (
     <section>
-      <h1>Register:</h1>
-      <form onSubmit={handleSignUp}>
-        <label htmlFor='fullName'>Full Name: </label>
+      <h1>Signup</h1>
+      <form onSubmit={signup}>
+        <label htmlFor="fname">Enter your First Name:</label>
         <input
           type="text"
+          placeholder="Enter your First Name"
           value={fname}
           onChange={(e) => setFname(e.target.value)}
-          placeholder="Enter your Full Name"
-          name="fullName"
-          required
         />
-        <br /><br />
-
-        <label htmlFor='email'>Email: </label>
+        <br />
+        <br />
+        <label htmlFor="lname">Enter your Last Name:</label>
+        <input
+          type="text"
+          placeholder="Enter your Last Name"
+          value={lname}
+          onChange={(e) => setLname(e.target.value)}
+        />
+        <br />
+        <br />
+        <label htmlFor="username">Username:</label>
+        <input
+          type="text"
+          placeholder="Enter your User Name"
+          value={uname}
+          onChange={(e) => setUname(e.target.value)}
+        />
+        <br />
+        <br />
+        <label htmlFor="email">Email:</label>
         <input
           type="email"
+          placeholder="Enter your Email ID"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="eg: example123@gmail.com"
-          name="email"
-          required
         />
-        <br /><br />
-
-        <label htmlFor='password'>Set Password: </label>
+        <br />
+        <br />
+        <label htmlFor="password">Password:</label>
         <input
           type="password"
+          placeholder="Enter your Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Enter Password"
-          name="password"
-          required
         />
-        <br /><br />
-
-        <label htmlFor='confirmPassword'>Confirm Password: </label>
+        <br />
+        <br />
+        <label htmlFor="cnf_password">Confirm Password:</label>
         <input
           type="password"
-          value={cnfPassword}
+          placeholder="Enter your Password"
+          value={cnf_password}
           onChange={(e) => setCnfPassword(e.target.value)}
-          placeholder="Confirm Password"
-          name="confirmPassword"
-          required
         />
-        <br /><br />
-
-        <button type="submit">SignUp</button>
-        <p>Already have an account? <Link to="/login">Login</Link></p>
+        <br />
+        <br />
+        <button>Signup</button>
       </form>
+      <p>
+        Already have an account?? <Link to="/login">Login</Link>
+      </p>
     </section>
   );
 };
-
-export default SignUp;
+export default Signup;

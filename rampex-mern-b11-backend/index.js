@@ -1,32 +1,32 @@
 const express = require('express');
 const dotenv = require("dotenv");
+const cors = require("cors");
+const mdb = require("mongoose");
 const signupController = require("./controllers/signup");
 const loginController = require("./controllers/login");
-const mdb = require('mongoose');
-const cors = require('cors')
 
 const app = express();
+
+app.use(express.json());
+app.use(cors());
 dotenv.config();
-const PORT = process.env.PORT || 3000;
 
-mdb.connect(process.env.MONGO_URL).then(()=>{
-    console.log("Connected to MongoDB");
-}).catch((err)=>{
-    console.error("Connection error to MongoDB:", err.message);
+const PORT = process.env.PORT || 8000;
 
-})
-
-app.use(express.json())
-app.use(cors())
-
-
-app.listen(PORT,()=>{
-    console.log(`Server is running on port ${PORT}`);
+mdb.connect(process.env.MONGO_URL).then(() => {
+    console.log("MongoDB Connection Successful");
+}).catch((err) => {
+    console.log("MongoDB Connection Unsuccessful", err);
 });
 
-app.get('/',(req,res)=>{
-    res.send("This makes the backend up and running");
-})
+app.get('/', (req, res) => {
+    res.send("Welcome to June Session of Backend Server");
+});
 
-app.use('/signup',signupController)
-app.use('/login',loginController)
+// Mount these controllers at root so that /login and /signup work
+app.use('/', signupController);
+app.use('/', loginController);
+
+app.listen(PORT, () => {
+    console.log(`Server is running successfully on port ${PORT}`);
+});
